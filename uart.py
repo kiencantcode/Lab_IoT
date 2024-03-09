@@ -1,5 +1,4 @@
 import serial.tools.list_ports
-
 def getPort():
     ports = serial.tools.list_ports.comports()
     N = len(ports)
@@ -25,6 +24,7 @@ def processData(client, data):
     elif len(splitData) >= 2 and splitData[1] == "H":
         client.publish("cambien2", splitData[2])
 mess = ""
+#readSerial
 def readSerial(client):
     bytesToRead = ser.inWaiting()
     if (bytesToRead > 0):
