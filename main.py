@@ -7,7 +7,7 @@ from simple_ai import *
 
 AIO_FEED_IDs = ["nutnhan1", "nutnhan2"]
 AIO_USERNAME = "EmKien"
-AIO_KEY = "aio_IpMp52qIWmbr3AzezxcpkL7UaGNf"
+AIO_KEY = "aio_VSCK51w5xbI0zfIjbjxcAeZCA5kZ"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -41,27 +41,32 @@ client.on_disconnect = disconnected
 client.on_subscribe = subscribe
 client.connect()
 client.loop_background()
-# counter = 10
-counter_ai = 2
+counter = 5
+counter_ai = 5
+ai_result_str = ""
+previous_result = ""
 while True:
-    # counter = counter - 1
-    # if counter <= 0:
-    #     counter = 10
-    #
-    #     print("Random data is publishing...")
-    #     temp = random.randint(10,20)
-    #     client.publish("cambien1", temp)
-    #     humi = random.randint(50, 70)
-    #     client.publish("cambien2", humi)
-    #     light = random.randint(100, 500)
-    #     client.publish("cambien3", light)
+    counter = counter - 1
+    if counter <= 0:
+        counter = 5
+
+        print("Random data is publishing...")
+        temp = random.randint(10,20)
+        client.publish("cambien1", temp)
+        humi = random.randint(50, 70)
+        client.publish("cambien2", humi)
+        light = random.randint(100, 500)
+        client.publish("cambien3", light)
 
     counter_ai = counter_ai - 1
     if counter_ai <= 0:
-        counter_ai = 2
+        counter_ai = 5
+        previous_result = ai_result_str
         ai_result = image_detector()
         ai_result_str = str(ai_result)
-        print("Final result: ", ai_result_str)
+        print("AI Output: ", ai_result_str)
+        if previous_result != ai_result_str:
+            client.publish("ai", ai_result_str)
     # readSerial(client)
     time.sleep(1)
 
