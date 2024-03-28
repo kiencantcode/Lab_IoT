@@ -7,7 +7,7 @@ from simple_ai import *
 
 AIO_FEED_IDs = ["nutnhan1", "nutnhan2"]
 AIO_USERNAME = "EmKien"
-AIO_KEY = "aio_VSCK51w5xbI0zfIjbjxcAeZCA5kZ"
+AIO_KEY = "aio_asMp95NsWeHx6mh2TC9bkjLGs7aS"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -41,14 +41,14 @@ client.on_disconnect = disconnected
 client.on_subscribe = subscribe
 client.connect()
 client.loop_background()
-counter = 5
+counter = 20
 counter_ai = 5
 ai_result_str = ""
 previous_result = ""
 while True:
     counter = counter - 1
     if counter <= 0:
-        counter = 5
+        counter = 20
 
         print("Random data is publishing...")
         temp = random.randint(10,20)
@@ -62,11 +62,12 @@ while True:
     if counter_ai <= 0:
         counter_ai = 5
         previous_result = ai_result_str
-        ai_result = image_detector()
+        ai_result, image = image_detector()
         ai_result_str = str(ai_result)
         print("AI Output: ", ai_result_str)
         if previous_result != ai_result_str:
             client.publish("ai", ai_result_str)
+            client.publish("image", image)
     # readSerial(client)
     time.sleep(1)
 

@@ -1,6 +1,9 @@
+import base64
+
 from keras.models import load_model  # TensorFlow is required for Keras to work
 import cv2  # Install opencv-python
 import numpy as np
+import base64
 
 # Disable scientific notation for clarity
 np.set_printoptions(suppress=True)
@@ -17,6 +20,16 @@ def image_detector():
 
     # Grab the webcamera's image.
     ret, image = camera.read()
+
+    res, frame = cv2.imencode('.jpg', image)
+    data = base64.b64encode(frame)
+
+    if len(data) > 102400:
+        print("Image is too big!")
+        print(len(data))
+    else:
+        print("Publish image:")
+        print(len(data))
 
     # Resize the raw image into (224-height,224-width) pixels
     image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
@@ -39,5 +52,5 @@ def image_detector():
     # Print prediction and confidence score
     print("Class:", class_name[2:], end="")
     print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
-    return class_name[2:]
+    return class_name[2:], data
 
