@@ -52,5 +52,5 @@ def image_detector():
     # Print prediction and confidence score
     print("Class:", class_name[2:], end="")
     print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
-    return class_name[2:], data
+    return class_name[2:], data, confidence_score
 

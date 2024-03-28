@@ -7,7 +7,7 @@ from simple_ai import *
 
 AIO_FEED_IDs = ["nutnhan1", "nutnhan2"]
 AIO_USERNAME = "EmKien"
-AIO_KEY = "aio_asMp95NsWeHx6mh2TC9bkjLGs7aS"
+AIO_KEY = "aio_iPef32ox8MolDvozCpjFasX2TqcT"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -62,10 +62,12 @@ while True:
     if counter_ai <= 0:
         counter_ai = 5
         previous_result = ai_result_str
-        ai_result, image = image_detector()
+        ai_result, image, confidence_score = image_detector()
         ai_result_str = str(ai_result)
+        check = confidence_score * 100
         print("AI Output: ", ai_result_str)
-        if previous_result != ai_result_str:
+        print("Check confidence score:", check)
+        if previous_result != ai_result_str and check > 70:
             client.publish("ai", ai_result_str)
             client.publish("image", image)
     # readSerial(client)
